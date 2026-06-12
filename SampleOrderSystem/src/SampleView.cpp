@@ -1,6 +1,7 @@
 #include "SampleView.h"
 #include "Color.h"
 #include "Utils.h"
+#include "Validator.h"
 #include <iostream>
 #include <iomanip>
 
@@ -104,7 +105,7 @@ std::string SampleView::InputName() const {
     while (true) {
         std::cout << " 시료명  > ";
         std::getline(std::cin, name);
-        if (!name.empty()) return name;
+        if (Validator::isNonEmpty(name)) return name;
         ShowError("시료명을 입력해 주세요.");
     }
 }
@@ -115,7 +116,7 @@ double SampleView::InputProductionTime() const {
         double val;
         if (std::cin >> val) {
             clearInputBuffer();
-            if (val > 0.0) return val;
+            if (Validator::isPositiveDouble(val)) return val;
             ShowError("0보다 큰 값을 입력해 주세요.");
         } else {
             clearInputBuffer();
@@ -130,7 +131,7 @@ double SampleView::InputYield() const {
         double val;
         if (std::cin >> val) {
             clearInputBuffer();
-            if (val > 0.0 && val <= 1.0) return val;
+            if (Validator::isValidYield(val)) return val;
             ShowError("0.0 초과 1.0 이하의 값을 입력해 주세요.");
         } else {
             clearInputBuffer();

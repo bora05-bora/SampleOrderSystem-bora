@@ -1,6 +1,7 @@
 #include "OrderView.h"
 #include "Color.h"
 #include "Utils.h"
+#include "Validator.h"
 #include <iostream>
 #include <iomanip>
 
@@ -167,7 +168,7 @@ std::string OrderView::InputSampleId() const {
     while (true) {
         std::cout << " 시료 ID   > ";
         std::getline(std::cin, id);
-        if (!id.empty()) return id;
+        if (Validator::isNonEmpty(id)) return id;
         ShowError("시료 ID를 입력해 주세요.");
     }
 }
@@ -177,7 +178,7 @@ std::string OrderView::InputCustomer() const {
     while (true) {
         std::cout << " 고객명    > ";
         std::getline(std::cin, name);
-        if (!name.empty()) return name;
+        if (Validator::isNonEmpty(name)) return name;
         ShowError("고객명을 입력해 주세요.");
     }
 }
@@ -188,7 +189,7 @@ int OrderView::InputQuantity() const {
         int val;
         if (std::cin >> val) {
             clearInputBuffer();
-            if (val >= 1) return val;
+            if (Validator::isPositiveInt(val)) return val;
             ShowError("1 이상의 수량을 입력해 주세요.");
         } else {
             clearInputBuffer();
