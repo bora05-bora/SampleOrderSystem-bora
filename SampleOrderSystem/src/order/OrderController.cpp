@@ -117,7 +117,8 @@ void OrderController::ProcessApprovals() {
             job.enqueuedAt = now;
             job.startedAt  = wasEmpty ? now : "";  // EMPTY 상태면 즉시 생산 시작
             dataStore_.AddProductionJob(job);
-            updated.status = OrderStatus::Producing;
+            updated.status         = OrderStatus::Producing;
+            updated.producingBased = true;
         }
     }
 

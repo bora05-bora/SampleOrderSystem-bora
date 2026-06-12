@@ -94,6 +94,21 @@ TEST_CASE("ReleaseOrder does not change stock") {
     CHECK(sample->stock == 50);
 }
 
+TEST_CASE("ReleaseOrder deducts order quantity from stock for production-based order") {
+    ReleaseFixture f;
+    // 생산 완료 후 재고 11 (기존 5 + 생산 6), 주문 수량 10
+    f.ds.AddSample(f.makeSample("01", 11));
+    OrderData o = f.makeOrder(1, "01", 10, OrderStatus::Confirmed);
+    o.producingBased = true;
+    f.ds.AddOrder(o);
+
+    f.ds.ReleaseOrder(1);
+
+    auto sample = f.ds.FindSampleById("01");
+    CHECK(sample.has_value());
+    CHECK(sample->stock == 1); // 11 - 10 = 1
+}
+
 TEST_CASE("ReleaseOrder returns false when order does not exist") {
     ReleaseFixture f;
 

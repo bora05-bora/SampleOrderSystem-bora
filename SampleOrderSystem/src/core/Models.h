@@ -44,31 +44,34 @@ struct OrderData {
     std::string customer;
     int         quantity;
     OrderStatus status;
-    std::string date;        // "YYYY-MM-DD"
+    std::string date;           // "YYYY-MM-DD"
+    bool        producingBased = false; // 생산 경로(Producing→Confirmed)이면 true
 
     nlohmann::json toJson() const {
         return {
-            {"id",         id},
-            {"orderNo",    orderNo},
-            {"sampleId",   sampleId},
-            {"sampleName", sampleName},
-            {"customer",   customer},
-            {"quantity",   quantity},
-            {"status",     orderStatusToString(status)},
-            {"date",       date}
+            {"id",             id},
+            {"orderNo",        orderNo},
+            {"sampleId",       sampleId},
+            {"sampleName",     sampleName},
+            {"customer",       customer},
+            {"quantity",       quantity},
+            {"status",         orderStatusToString(status)},
+            {"date",           date},
+            {"producingBased", producingBased}
         };
     }
 
     static OrderData fromJson(const nlohmann::json& j) {
         OrderData o;
-        o.id         = j.at("id").get<int>();
-        o.orderNo    = j.at("orderNo").get<std::string>();
-        o.sampleId   = j.at("sampleId").get<std::string>();
-        o.sampleName = j.at("sampleName").get<std::string>();
-        o.customer   = j.at("customer").get<std::string>();
-        o.quantity   = j.at("quantity").get<int>();
-        o.status     = orderStatusFromString(j.at("status").get<std::string>());
-        o.date       = j.at("date").get<std::string>();
+        o.id             = j.at("id").get<int>();
+        o.orderNo        = j.at("orderNo").get<std::string>();
+        o.sampleId       = j.at("sampleId").get<std::string>();
+        o.sampleName     = j.at("sampleName").get<std::string>();
+        o.customer       = j.at("customer").get<std::string>();
+        o.quantity       = j.at("quantity").get<int>();
+        o.status         = orderStatusFromString(j.at("status").get<std::string>());
+        o.date           = j.at("date").get<std::string>();
+        o.producingBased = j.value("producingBased", false);
         return o;
     }
 };

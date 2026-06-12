@@ -29,7 +29,14 @@ std::vector<OrderData>        DataStore::GetConfirmedOrders() const             
 std::optional<OrderData>      DataStore::FindOrderById(int id) const                       { return orderRepo_.FindById(id); }
 void                          DataStore::AddOrder(const OrderData& o)                      { orderRepo_.Add(o); }
 void                          DataStore::UpdateOrder(const OrderData& o)                   { orderRepo_.Update(o); }
-bool                          DataStore::ReleaseOrder(int id)                              { return orderRepo_.Release(id); }
+bool DataStore::ReleaseOrder(int orderId) {
+    auto order = orderRepo_.FindById(orderId);
+    if (!order) return false;
+    bool ok = orderRepo_.Release(orderId);
+    if (ok && order->producingBased)
+        sampleRepo_.UpdateStock(order->sampleId, -order->quantity);
+    return ok;
+}
 void                          DataStore::SaveOrders()                                      { orderRepo_.Save(); }
 int                           DataStore::NextOrderId()                                     { return orderRepo_.NextId(); }
 
