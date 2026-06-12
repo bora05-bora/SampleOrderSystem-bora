@@ -1,5 +1,6 @@
 #include "MainController.h"
 #include "Color.h"
+#include "UI.h"
 #include "Utils.h"
 #include "DateTimeUtils.h"
 #include <iostream>
@@ -48,12 +49,12 @@ void MainController::Run() {
 void MainController::showHeader() const {
     std::cout << "\n";
     Color::set(Color::CYAN);
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     std::cout << "       반도체 시료 생산주문관리 시스템   S-Semi\n";
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     Color::reset();
     std::cout << " 시스템 현황   " << DateTimeUtils::nowDateTime() << "\n";
-    std::cout << "------------------------------------------------------------\n";
+    std::cout << UI::SEP_THIN << "\n";
 }
 
 void MainController::showSummary() const {
@@ -74,7 +75,7 @@ void MainController::showSummary() const {
     else              Color::set(Color::CYAN);
     std::cout << std::setw(3) << reserved << " 건\n";
     Color::reset();
-    std::cout << "------------------------------------------------------------\n";
+    std::cout << UI::SEP_THIN << "\n";
 }
 
 void MainController::showMenu() const {
@@ -87,5 +88,5 @@ void MainController::showMenu() const {
     std::cout << " [5] 모니터링\n";
     std::cout << " [6] 출고 처리\n";
     std::cout << " [0] 종료\n";
-    std::cout << "------------------------------------------------------------\n";
+    std::cout << UI::SEP_THIN << "\n";
 }

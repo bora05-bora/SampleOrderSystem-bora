@@ -1,21 +1,20 @@
 #include "ReleaseView.h"
 #include "Color.h"
 #include "Utils.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
-
-static const std::string SEP = "------------------------------------------------------------";
 
 void ReleaseView::ShowConfirmedList(const std::vector<OrderData>& orders) const {
     std::cout << "\n";
     std::cout << " 출고 대기 중인 주문 목록  (CONFIRMED)\n";
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 
     if (orders.empty()) {
         Color::set(Color::YELLOW);
         std::cout << " 출고 가능한 주문이 없습니다.\n";
         Color::reset();
-        std::cout << SEP << "\n";
+        std::cout << UI::SEP_THIN<< "\n";
         return;
     }
 
@@ -27,7 +26,7 @@ void ReleaseView::ShowConfirmedList(const std::vector<OrderData>& orders) const 
               << std::setw(14) << "시료"
               << "수량\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 
     int idx = 1;
     for (const auto& o : orders) {
@@ -39,7 +38,7 @@ void ReleaseView::ShowConfirmedList(const std::vector<OrderData>& orders) const 
                   << std::setw(14) << o.sampleName;
         std::cout << std::right << std::setw(4) << o.quantity << " ea\n";
     }
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 void ReleaseView::ShowReleaseResult(const OrderData& order) const {
@@ -47,7 +46,7 @@ void ReleaseView::ShowReleaseResult(const OrderData& order) const {
     Color::set(Color::MAGENTA);
     std::cout << " 출고 완료.\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
     std::cout << " 주문번호   " << order.orderNo << "\n";
     std::cout << " 고객       " << order.customer << "\n";
     std::cout << " 시료       " << order.sampleName << "\n";
@@ -56,7 +55,7 @@ void ReleaseView::ShowReleaseResult(const OrderData& order) const {
     Color::set(Color::MAGENTA);
     std::cout << "RELEASE\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 void ReleaseView::ShowError(const std::string& msg) const {

@@ -1,5 +1,6 @@
 #include "OrderController.h"
 #include "Color.h"
+#include "UI.h"
 #include "ProductionCalc.h"
 #include "DateTimeUtils.h"
 #include <iostream>
@@ -19,9 +20,9 @@ std::string OrderController::formatOrderId(int id) {
 void OrderController::PlaceOrder() {
     std::cout << "\n";
     Color::set(Color::CYAN);
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     std::cout << " [2] 시료 주문\n";
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     Color::reset();
 
     std::string sampleId = view_.InputSampleId();
@@ -60,9 +61,9 @@ void OrderController::PlaceOrder() {
 void OrderController::ProcessApprovals() {
     std::cout << "\n";
     Color::set(Color::CYAN);
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     std::cout << " [3] 주문 승인/거절\n";
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     Color::reset();
 
     auto reserved = dataStore_.GetReservedOrders();

@@ -1,11 +1,9 @@
 #include "ProductionView.h"
 #include "Color.h"
 #include "Utils.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
-
-static const std::string SEP  = "------------------------------------------------------------";
-static const std::string SEP2 = "----------------------------------------------------------------------";
 
 static std::string makeProgressBar(double pct) {
     int filled = std::min(20, (int)(pct / 100.0 * 20.0 + 0.5));
@@ -60,7 +58,7 @@ void ProductionView::ShowRunning(const std::vector<ProductionJob>& queue,
         }
     }
 
-    std::cout << SEP2 << "\n";
+    std::cout << UI::SEP_WIDE << "\n";
     Color::set(Color::YELLOW);
     std::cout << " * 진행도는 생산 시작 시각 기준 실시간 경과 시간으로 계산됩니다.\n";
     std::cout << " * FIFO 방식으로 처리됩니다.\n";
@@ -72,7 +70,7 @@ void ProductionView::ShowEmpty() const {
     Color::set(Color::YELLOW);
     std::cout << " 현재 생산 중인 작업이 없습니다.\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 void ProductionView::ShowAutoComplete(const ProductionJob& job,
@@ -98,7 +96,7 @@ void ProductionView::ShowAutoComplete(const ProductionJob& job,
     Color::set(Color::GREEN);
     std::cout << "CONFIRMED";
     Color::reset();
-    std::cout << "\n" << SEP << "\n";
+    std::cout << "\n" << UI::SEP_THIN<< "\n";
 
     if (hasNext) {
         Color::set(Color::CYAN);

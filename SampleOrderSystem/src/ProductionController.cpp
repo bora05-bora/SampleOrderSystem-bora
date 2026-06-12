@@ -1,5 +1,6 @@
 #include "ProductionController.h"
 #include "Color.h"
+#include "UI.h"
 #include "DateTimeUtils.h"
 #include <iostream>
 #include <iomanip>
@@ -58,9 +59,9 @@ bool ProductionController::tryAutoComplete() {
 void ProductionController::Run() {
     std::cout << "\n";
     Color::set(Color::CYAN);
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     std::cout << " [4] 생산라인 조회   FIFO 방식\n";
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     Color::reset();
 
     // 완료된 작업 자동 처리 (프로그램 재시작 후 경과 시간 반영)

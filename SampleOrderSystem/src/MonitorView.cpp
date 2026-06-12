@@ -1,10 +1,9 @@
 #include "MonitorView.h"
 #include "Color.h"
 #include "Utils.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
-
-static const std::string SEP = "------------------------------------------------------------";
 
 static void printStatusLabel(StockStatus s) {
     switch (s) {
@@ -46,7 +45,7 @@ void MonitorView::ShowMonitor(const OrderStatusSummary& summary,
     printCount("RELEASE",   summary.release,   Color::MAGENTA);
 
     int total = summary.reserved + summary.producing + summary.confirmed + summary.release;
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
     std::cout << "  " << std::left << std::setw(12) << "합계";
     Color::set(Color::CYAN);
     std::cout << std::right << std::setw(4) << total << " 건\n";
@@ -70,7 +69,7 @@ void MonitorView::ShowMonitor(const OrderStatusSummary& summary,
                   << std::setw(10) << "재고"
                   << "상태\n";
         Color::reset();
-        std::cout << SEP << "\n";
+        std::cout << UI::SEP_THIN<< "\n";
 
         for (const auto& s : samples) {
             StockStatus status = ds.GetStockStatus(s.id);
@@ -84,7 +83,7 @@ void MonitorView::ShowMonitor(const OrderStatusSummary& summary,
             std::cout << "\n";
         }
     }
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 void MonitorView::InputBack() const {

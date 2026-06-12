@@ -1,5 +1,6 @@
 #include "ReleaseController.h"
 #include "Color.h"
+#include "UI.h"
 #include <iostream>
 
 ReleaseController::ReleaseController(DataStore& dataStore)
@@ -8,9 +9,9 @@ ReleaseController::ReleaseController(DataStore& dataStore)
 void ReleaseController::Run() {
     std::cout << "\n";
     Color::set(Color::CYAN);
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     std::cout << " [6] 출고 처리\n";
-    std::cout << "============================================================\n";
+    std::cout << UI::SEP_THICK << "\n";
     Color::reset();
 
     auto confirmed = dataStore_.GetConfirmedOrders();

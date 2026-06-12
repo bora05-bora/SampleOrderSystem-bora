@@ -1,5 +1,6 @@
 #include "SampleController.h"
 #include "Color.h"
+#include "UI.h"
 #include "Utils.h"
 #include <iostream>
 
@@ -10,9 +11,9 @@ void SampleController::Run() {
     while (true) {
         std::cout << "\n";
         Color::set(Color::CYAN);
-        std::cout << "============================================================\n";
+        std::cout << UI::SEP_THICK << "\n";
         std::cout << " [1] 시료 관리\n";
-        std::cout << "============================================================\n";
+        std::cout << UI::SEP_THICK << "\n";
         Color::reset();
 
         view_.ShowMenu();

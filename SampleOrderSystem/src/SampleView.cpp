@@ -2,29 +2,27 @@
 #include "Color.h"
 #include "Utils.h"
 #include "Validator.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
-
-static const std::string SEP_THICK = "============================================================";
-static const std::string SEP_THIN  = "------------------------------------------------------------";
 
 void SampleView::ShowMenu() const {
     std::cout << "\n";
     Color::set(Color::CYAN);
     std::cout << " [1] 시료 등록   [2] 시료 목록   [3] 시료 검색   [0] 뒤로\n";
     Color::reset();
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
     std::cout << " 선택 > ";
 }
 
 void SampleView::ShowSampleList(const std::vector<SampleData>& samples) const {
     std::cout << "\n";
     std::cout << " 등록 시료 목록  (총 " << samples.size() << "종)\n";
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
 
     if (samples.empty()) {
         std::cout << " 등록된 시료가 없습니다.\n";
-        std::cout << SEP_THIN << "\n";
+        std::cout << UI::SEP_THIN << "\n";
         return;
     }
 
@@ -36,7 +34,7 @@ void SampleView::ShowSampleList(const std::vector<SampleData>& samples) const {
               << std::setw(6)  << "수율"
               << "재고\n";
     Color::reset();
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
 
     for (const auto& s : samples) {
         std::cout << " " << std::left << std::setw(9) << s.id;
@@ -56,7 +54,7 @@ void SampleView::ShowSampleList(const std::vector<SampleData>& samples) const {
         Color::reset();
         std::cout << "\n";
     }
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
 }
 
 void SampleView::ShowSearchResult(const std::vector<SampleData>& results,
@@ -71,11 +69,11 @@ void SampleView::ShowRegistered(const SampleData& sample) const {
     Color::set(Color::GREEN);
     std::cout << " 시료가 등록되었습니다.\n";
     Color::reset();
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
     std::cout << " ID      " << sample.id   << "\n";
     std::cout << " 이름    " << sample.name << "\n";
     std::cout << " 재고    0 ea (초기값)\n";
-    std::cout << SEP_THIN << "\n";
+    std::cout << UI::SEP_THIN << "\n";
 }
 
 void SampleView::ShowError(const std::string& msg) const {

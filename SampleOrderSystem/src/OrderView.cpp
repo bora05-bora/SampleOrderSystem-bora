@@ -2,10 +2,9 @@
 #include "Color.h"
 #include "Utils.h"
 #include "Validator.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
-
-static const std::string SEP = "------------------------------------------------------------";
 
 static WORD statusColor(OrderStatus s) {
     switch (s) {
@@ -28,13 +27,13 @@ static void printStatus(OrderStatus s) {
 void OrderView::ShowReservedList(const std::vector<OrderData>& orders) const {
     std::cout << "\n";
     std::cout << " 승인 대기 중인 예약 목록  (RESERVED)\n";
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 
     if (orders.empty()) {
         Color::set(Color::YELLOW);
         std::cout << " 처리 대기 중인 주문이 없습니다.\n";
         Color::reset();
-        std::cout << SEP << "\n";
+        std::cout << UI::SEP_THIN<< "\n";
         return;
     }
 
@@ -46,7 +45,7 @@ void OrderView::ShowReservedList(const std::vector<OrderData>& orders) const {
               << std::setw(14) << "시료"
               << "수량\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 
     int idx = 1;
     for (const auto& o : orders) {
@@ -58,7 +57,7 @@ void OrderView::ShowReservedList(const std::vector<OrderData>& orders) const {
                   << std::setw(14) << o.sampleName;
         std::cout << std::right << std::setw(4) << o.quantity << " ea\n";
     }
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 // ── 주문 접수 확인 화면 ───────────────────────────────────
@@ -73,7 +72,7 @@ void OrderView::ShowOrderConfirm(const std::string& sampleId,
     std::cout << " 시료      " << sampleName << "  (" << sampleId << ")\n";
     std::cout << " 고객      " << customer << "\n";
     std::cout << " 수량      " << quantity << " ea\n";
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
     std::cout << " [Y] 예약 접수   [N] 취소\n";
 }
 
@@ -83,13 +82,13 @@ void OrderView::ShowOrderPlaced(const OrderData& order) const {
     Color::set(Color::GREEN);
     std::cout << " 예약 접수 완료.\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
     std::cout << " 주문번호   " << order.orderNo << "\n";
     std::cout << " 현재 상태  "; printStatus(order.status); std::cout << "\n";
     Color::set(Color::YELLOW);
     std::cout << " ※ 재고 확인은 [3] 승인 메뉴에서 진행하세요.\n";
     Color::reset();
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 // ── 재고 확인 화면 ────────────────────────────────────────
@@ -145,14 +144,14 @@ void OrderView::ShowApprovalResult(const OrderData& order, OrderStatus before) c
     }
     Color::reset();
 
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
     std::cout << " 상태 변경  ";
     printStatus(before);
     std::cout << " → ";
     printStatus(order.status);
     std::cout << "\n";
     std::cout << " 주문번호   " << order.orderNo << "\n";
-    std::cout << SEP << "\n";
+    std::cout << UI::SEP_THIN<< "\n";
 }
 
 // ── 오류 ──────────────────────────────────────────────────
