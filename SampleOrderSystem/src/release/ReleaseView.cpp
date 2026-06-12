@@ -1,7 +1,7 @@
-#include "ReleaseView.h"
-#include "Color.h"
-#include "Utils.h"
-#include "UI.h"
+﻿#include "release/ReleaseView.h"
+#include "core/Color.h"
+#include "core/Utils.h"
+#include "core/UI.h"
 #include <iostream>
 #include <iomanip>
 

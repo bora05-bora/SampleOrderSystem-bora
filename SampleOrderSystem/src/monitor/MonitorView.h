@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include <vector>
-#include "Models.h"
-#include "DataStore.h"
+#include "core/Models.h"
+#include "repository/DataStore.h"
 
 class MonitorView {
 public:

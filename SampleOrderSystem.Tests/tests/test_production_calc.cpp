@@ -1,5 +1,5 @@
-#include "doctest/doctest.h"
-#include "ProductionCalc.h"
+﻿#include "doctest/doctest.h"
+#include "core/ProductionCalc.h"
 
 // ── 사이클 5: calcEffectiveStock ─────────────────────────
 

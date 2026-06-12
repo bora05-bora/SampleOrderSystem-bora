@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -42,10 +42,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SampleOrderSystem\src\DataStore.cpp" />
-    <ClCompile Include="..\SampleOrderSystem\src\SampleRepository.cpp" />
-    <ClCompile Include="..\SampleOrderSystem\src\OrderRepository.cpp" />
-    <ClCompile Include="..\SampleOrderSystem\src\ProductionRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\repository\DataStore.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\repository\SampleRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\repository\OrderRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionRepository.cpp" />
     <ClCompile Include="tests\test_main.cpp" />
     <ClCompile Include="tests\test_release.cpp" />
     <ClCompile Include="tests\test_monitoring.cpp" />

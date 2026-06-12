@@ -1,7 +1,7 @@
-#include "SampleController.h"
-#include "Color.h"
-#include "UI.h"
-#include "Utils.h"
+﻿#include "sample/SampleController.h"
+#include "core/Color.h"
+#include "core/UI.h"
+#include "core/Utils.h"
 #include <iostream>
 
 SampleController::SampleController(DataStore& dataStore)

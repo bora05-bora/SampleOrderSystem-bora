@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include <string>
 #include <optional>
-#include "Models.h"
-#include "SampleRepository.h"
-#include "OrderRepository.h"
-#include "ProductionRepository.h"
+#include "core/Models.h"
+#include "repository/SampleRepository.h"
+#include "repository/OrderRepository.h"
+#include "repository/ProductionRepository.h"
 
 class DataStore {
 public:

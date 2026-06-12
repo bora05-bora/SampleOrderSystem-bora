@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include <string>
-#include "DataStore.h"
-#include "ProductionView.h"
+#include "repository/DataStore.h"
+#include "production/ProductionView.h"
 
 class ProductionController {
 public:

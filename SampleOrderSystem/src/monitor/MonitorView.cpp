@@ -1,7 +1,7 @@
-#include "MonitorView.h"
-#include "Color.h"
-#include "Utils.h"
-#include "UI.h"
+﻿#include "monitor/MonitorView.h"
+#include "core/Color.h"
+#include "core/Utils.h"
+#include "core/UI.h"
 #include <iostream>
 #include <iomanip>
 

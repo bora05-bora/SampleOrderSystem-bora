@@ -1,6 +1,6 @@
-#pragma once
-#include "DataStore.h"
-#include "SampleView.h"
+﻿#pragma once
+#include "repository/DataStore.h"
+#include "sample/SampleView.h"
 
 class SampleController {
 public:

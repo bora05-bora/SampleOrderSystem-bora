@@ -1,6 +1,6 @@
-#include "ReleaseController.h"
-#include "Color.h"
-#include "UI.h"
+﻿#include "release/ReleaseController.h"
+#include "core/Color.h"
+#include "core/UI.h"
 #include <iostream>
 
 ReleaseController::ReleaseController(DataStore& dataStore)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -48,7 +48,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -65,7 +65,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -76,42 +76,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Color.h" />
-    <ClInclude Include="src\DateTimeUtils.h" />
-    <ClInclude Include="src\Utils.h" />
-    <ClInclude Include="src\Models.h" />
-    <ClInclude Include="src\SampleRepository.h" />
-    <ClInclude Include="src\OrderRepository.h" />
-    <ClInclude Include="src\ProductionRepository.h" />
-    <ClInclude Include="src\DataStore.h" />
-    <ClInclude Include="src\SampleView.h" />
-    <ClInclude Include="src\SampleController.h" />
-    <ClInclude Include="src\OrderView.h" />
-    <ClInclude Include="src\OrderController.h" />
-    <ClInclude Include="src\ProductionView.h" />
-    <ClInclude Include="src\ProductionController.h" />
-    <ClInclude Include="src\MonitorView.h" />
-    <ClInclude Include="src\MonitorController.h" />
-    <ClInclude Include="src\ReleaseView.h" />
-    <ClInclude Include="src\ReleaseController.h" />
+    <ClInclude Include="src\core\Color.h" />
+    <ClInclude Include="src\core\DateTimeUtils.h" />
+    <ClInclude Include="src\core\Utils.h" />
+    <ClInclude Include="src\core\Models.h" />
+    <ClInclude Include="src\repository\SampleRepository.h" />
+    <ClInclude Include="src\repository\OrderRepository.h" />
+    <ClInclude Include="src\repository\ProductionRepository.h" />
+    <ClInclude Include="src\repository\DataStore.h" />
+    <ClInclude Include="src\sample\SampleView.h" />
+    <ClInclude Include="src\sample\SampleController.h" />
+    <ClInclude Include="src\order\OrderView.h" />
+    <ClInclude Include="src\order\OrderController.h" />
+    <ClInclude Include="src\production\ProductionView.h" />
+    <ClInclude Include="src\production\ProductionController.h" />
+    <ClInclude Include="src\monitor\MonitorView.h" />
+    <ClInclude Include="src\monitor\MonitorController.h" />
+    <ClInclude Include="src\release\ReleaseView.h" />
+    <ClInclude Include="src\release\ReleaseController.h" />
     <ClInclude Include="src\MainController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\SampleRepository.cpp" />
-    <ClCompile Include="src\OrderRepository.cpp" />
-    <ClCompile Include="src\ProductionRepository.cpp" />
-    <ClCompile Include="src\DataStore.cpp" />
-    <ClCompile Include="src\SampleView.cpp" />
-    <ClCompile Include="src\SampleController.cpp" />
-    <ClCompile Include="src\OrderView.cpp" />
-    <ClCompile Include="src\OrderController.cpp" />
-    <ClCompile Include="src\ProductionView.cpp" />
-    <ClCompile Include="src\ProductionController.cpp" />
-    <ClCompile Include="src\MonitorView.cpp" />
-    <ClCompile Include="src\MonitorController.cpp" />
-    <ClCompile Include="src\ReleaseView.cpp" />
-    <ClCompile Include="src\ReleaseController.cpp" />
+    <ClCompile Include="src\repository\SampleRepository.cpp" />
+    <ClCompile Include="src\repository\OrderRepository.cpp" />
+    <ClCompile Include="src\repository\ProductionRepository.cpp" />
+    <ClCompile Include="src\repository\DataStore.cpp" />
+    <ClCompile Include="src\sample\SampleView.cpp" />
+    <ClCompile Include="src\sample\SampleController.cpp" />
+    <ClCompile Include="src\order\OrderView.cpp" />
+    <ClCompile Include="src\order\OrderController.cpp" />
+    <ClCompile Include="src\production\ProductionView.cpp" />
+    <ClCompile Include="src\production\ProductionController.cpp" />
+    <ClCompile Include="src\monitor\MonitorView.cpp" />
+    <ClCompile Include="src\monitor\MonitorController.cpp" />
+    <ClCompile Include="src\release\ReleaseView.cpp" />
+    <ClCompile Include="src\release\ReleaseController.cpp" />
     <ClCompile Include="src\MainController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,10 +1,10 @@
-#pragma once
-#include "DataStore.h"
-#include "SampleController.h"
-#include "OrderController.h"
-#include "ProductionController.h"
-#include "MonitorController.h"
-#include "ReleaseController.h"
+﻿#pragma once
+#include "repository/DataStore.h"
+#include "sample/SampleController.h"
+#include "order/OrderController.h"
+#include "production/ProductionController.h"
+#include "monitor/MonitorController.h"
+#include "release/ReleaseController.h"
 
 class MainController {
 public:

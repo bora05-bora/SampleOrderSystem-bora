@@ -1,6 +1,6 @@
-#pragma once
-#include "DataStore.h"
-#include "ReleaseView.h"
+﻿#pragma once
+#include "repository/DataStore.h"
+#include "release/ReleaseView.h"
 
 class ReleaseController {
 public:

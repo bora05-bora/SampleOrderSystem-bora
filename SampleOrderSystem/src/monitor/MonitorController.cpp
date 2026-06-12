@@ -1,6 +1,6 @@
-#include "MonitorController.h"
-#include "Color.h"
-#include "UI.h"
+﻿#include "monitor/MonitorController.h"
+#include "core/Color.h"
+#include "core/UI.h"
 #include <iostream>
 
 MonitorController::MonitorController(DataStore& dataStore)
