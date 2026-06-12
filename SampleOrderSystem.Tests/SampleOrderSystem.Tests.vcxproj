@@ -54,6 +54,7 @@
     <ClCompile Include="tests\test_sample_repository.cpp" />
     <ClCompile Include="tests\test_order_repository.cpp" />
     <ClCompile Include="tests\test_production_repository.cpp" />
+    <ClCompile Include="tests\test_phase3_production.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
