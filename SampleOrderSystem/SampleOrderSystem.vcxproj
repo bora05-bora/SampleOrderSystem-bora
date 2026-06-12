@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\DateTimeUtils.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\Models.h" />
     <ClInclude Include="src\DataStore.h" />

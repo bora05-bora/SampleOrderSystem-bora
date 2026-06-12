@@ -1,41 +1,13 @@
 #include "OrderController.h"
 #include "Color.h"
 #include "ProductionCalc.h"
+#include "DateTimeUtils.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <ctime>
 
 OrderController::OrderController(DataStore& dataStore)
     : dataStore_(dataStore) {}
-
-// ── 날짜 헬퍼 ────────────────────────────────────────────
-std::string OrderController::currentDateStr() {
-    std::time_t now = std::time(nullptr);
-    struct tm ts = {};
-    localtime_s(&ts, &now);
-    char buf[16];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%d", &ts);
-    return buf;
-}
-
-std::string OrderController::currentDateCompact() {
-    std::time_t now = std::time(nullptr);
-    struct tm ts = {};
-    localtime_s(&ts, &now);
-    char buf[12];
-    std::strftime(buf, sizeof(buf), "%Y%m%d", &ts);
-    return buf;
-}
-
-std::string OrderController::currentDateTimeStr() {
-    std::time_t now = std::time(nullptr);
-    struct tm ts = {};
-    localtime_s(&ts, &now);
-    char buf[32];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &ts);
-    return buf;
-}
 
 std::string OrderController::formatOrderId(int id) {
     std::ostringstream oss;
@@ -72,13 +44,13 @@ void OrderController::PlaceOrder() {
     int id = dataStore_.NextOrderId();
     OrderData order;
     order.id         = id;
-    order.orderNo    = "ORD-" + currentDateCompact() + "-" + formatOrderId(id);
+    order.orderNo    = "ORD-" + DateTimeUtils::nowDateCompact() + "-" + formatOrderId(id);
     order.sampleId   = sampleId;
     order.sampleName = sample->name;
     order.customer   = customer;
     order.quantity   = quantity;
     order.status     = OrderStatus::Reserved;
-    order.date       = currentDateStr();
+    order.date       = DateTimeUtils::nowDate();
 
     dataStore_.AddOrder(order);
     view_.ShowOrderPlaced(order);
@@ -129,7 +101,7 @@ void OrderController::ProcessApprovals() {
             dataStore_.UpdateSampleStock(selected.sampleId, -selected.quantity);
         } else {
             bool wasEmpty = dataStore_.GetProductionQueue().empty();
-            std::string now = currentDateTimeStr();
+            std::string now = DateTimeUtils::nowDateTime();
 
             ProductionJob job;
             job.orderId    = selected.id;

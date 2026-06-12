@@ -1,18 +1,9 @@
 #include "MainController.h"
 #include "Color.h"
 #include "Utils.h"
+#include "DateTimeUtils.h"
 #include <iostream>
 #include <iomanip>
-#include <ctime>
-
-static std::string currentDateTime() {
-    std::time_t now = std::time(nullptr);
-    struct tm   ts  = {};
-    localtime_s(&ts, &now);
-    char buf[32];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &ts);
-    return buf;
-}
 
 MainController::MainController(DataStore& dataStore)
     : dataStore_(dataStore), sampleCtrl_(dataStore),
@@ -61,7 +52,7 @@ void MainController::showHeader() const {
     std::cout << "       반도체 시료 생산주문관리 시스템   S-Semi\n";
     std::cout << "============================================================\n";
     Color::reset();
-    std::cout << " 시스템 현황   " << currentDateTime() << "\n";
+    std::cout << " 시스템 현황   " << DateTimeUtils::nowDateTime() << "\n";
     std::cout << "------------------------------------------------------------\n";
 }
 
