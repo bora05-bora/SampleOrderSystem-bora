@@ -221,3 +221,55 @@ int DataStore::GetQueuedQuantityForSample(const std::string& sampleId) const {
             total += job.quantity;
     return total;
 }
+
+// ── 출고 처리 ─────────────────────────────────────────────
+
+std::vector<OrderData> DataStore::GetConfirmedOrders() const {
+    std::vector<OrderData> result;
+    for (const auto& o : orders_)
+        if (o.status == OrderStatus::Confirmed)
+            result.push_back(o);
+    return result;
+}
+
+bool DataStore::ReleaseOrder(int orderId) {
+    for (auto& o : orders_) {
+        if (o.id == orderId) {
+            if (o.status != OrderStatus::Confirmed) return false;
+            o.status = OrderStatus::Release;
+            SaveOrders();
+            return true;
+        }
+    }
+    return false;
+}
+
+// ── 모니터링 ──────────────────────────────────────────────
+
+OrderStatusSummary DataStore::GetOrderStatusSummary() const {
+    OrderStatusSummary summary;
+    for (const auto& o : orders_) {
+        switch (o.status) {
+        case OrderStatus::Reserved:  summary.reserved++;  break;
+        case OrderStatus::Producing: summary.producing++; break;
+        case OrderStatus::Confirmed: summary.confirmed++; break;
+        case OrderStatus::Release:   summary.release++;   break;
+        default: break; // Rejected 제외
+        }
+    }
+    return summary;
+}
+
+StockStatus DataStore::GetStockStatus(const std::string& sampleId) const {
+    auto sample = FindSampleById(sampleId);
+    if (!sample) return StockStatus::Depleted;
+
+    if (sample->stock == 0) return StockStatus::Depleted;
+
+    int reservedTotal = 0;
+    for (const auto& o : orders_)
+        if (o.sampleId == sampleId && o.status == OrderStatus::Reserved)
+            reservedTotal += o.quantity;
+
+    return (sample->stock < reservedTotal) ? StockStatus::Short : StockStatus::Plenty;
+}

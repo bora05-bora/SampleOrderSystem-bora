@@ -23,11 +23,17 @@ public:
     // Orders
     const std::vector<OrderData>& GetOrders() const;
     std::vector<OrderData>        GetReservedOrders() const;
+    std::vector<OrderData>        GetConfirmedOrders() const;
     std::optional<OrderData>      FindOrderById(int id) const;
     void                          AddOrder(const OrderData& order);
     void                          UpdateOrder(const OrderData& order);
+    bool                          ReleaseOrder(int orderId);
     void                          SaveOrders();
     int                           NextOrderId();
+
+    // Monitoring
+    OrderStatusSummary            GetOrderStatusSummary() const;
+    StockStatus                   GetStockStatus(const std::string& sampleId) const;
 
     // Production queue
     const std::vector<ProductionJob>& GetProductionQueue() const;

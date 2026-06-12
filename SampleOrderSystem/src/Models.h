@@ -5,6 +5,17 @@
 // ── 주문 상태 ────────────────────────────────────────────
 enum class OrderStatus { Reserved, Rejected, Producing, Confirmed, Release };
 
+// ── 재고 상태 ────────────────────────────────────────────
+enum class StockStatus { Plenty, Short, Depleted };
+
+// ── 상태별 주문 수 요약 ──────────────────────────────────
+struct OrderStatusSummary {
+    int reserved  = 0;
+    int producing = 0;
+    int confirmed = 0;
+    int release   = 0;
+};
+
 inline std::string orderStatusToString(OrderStatus s) {
     switch (s) {
     case OrderStatus::Reserved:  return "RESERVED";
