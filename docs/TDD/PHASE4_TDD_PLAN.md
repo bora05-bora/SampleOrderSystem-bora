@@ -50,8 +50,11 @@ SampleOrderSystem.Tests/
 |------|------|
 | 입력 | CONFIRMED 상태 주문 목록 표시 → 사용자 선택 |
 | 처리 | 선택한 주문의 상태를 CONFIRMED → RELEASE로 변경 |
-| **핵심 제약** | **출고 시 재고를 추가 차감하지 않음** (재고는 승인 시점에 이미 차감됨) |
+| **재고 차감 규칙** | 승인 즉시 확정(직접 Confirmed) 경로: 승인 시점에 재고 차감 → 출고 시 차감 없음 |
+| | 생산 경로(Producing → Confirmed): 승인 시 차감 없음, 생산 완료 시 actualQty 증가 → **출고 시 주문 수량만큼 차감** |
 | 반환 | 출고 완료 메시지 표시 |
+
+> **경로 구분:** `OrderData.producingBased` 필드(bool)로 구분. 생산 경로로 전환 시 `true`로 설정, 직접 Confirmed는 기본값 `false` 유지.
 
 ### 모니터링 (feature-monitoring.md + PRD)
 
@@ -136,45 +139,33 @@ std::vector<OrderData> DataStore::GetConfirmedOrders() const {
 #### RED
 
 ```cpp
-TEST_CASE("ReleaseOrder changes CONFIRMED order status to RELEASE") {
-    ds.AddOrder(makeOrder(1, "01", 10, OrderStatus::Confirmed));
-    bool result = ds.ReleaseOrder(1);
-    CHECK(result == true);
-    CHECK(ds.FindOrderById(1)->status == OrderStatus::Release);
+TEST_CASE("ReleaseOrder changes CONFIRMED order status to RELEASE") { ... }
+
+// 직접 Confirmed 경로: 재고 불변
+TEST_CASE("ReleaseOrder does not change stock for direct-confirmed order") {
+    // producingBased = false (기본값), 재고 50 → 출고 후 50 유지
 }
 
-TEST_CASE("ReleaseOrder does not change stock") {
-    // 시료 재고 50 설정, CONFIRMED 주문 수량 10
-    ds.ReleaseOrder(1);
-    CHECK(ds.FindSampleById("01")->stock == 50); // 그대로
+// 생산 경로: 출고 시 quantity 차감
+TEST_CASE("ReleaseOrder deducts order quantity from stock for production-based order") {
+    // producingBased = true, 재고 11(생산 완료 후), 주문 10
+    // 출고 후 재고 = 11 - 10 = 1
 }
 
-TEST_CASE("ReleaseOrder returns false when order does not exist") {
-    CHECK(ds.ReleaseOrder(999) == false);
-}
-
-TEST_CASE("ReleaseOrder returns false when order is not CONFIRMED") {
-    ds.AddOrder(makeOrder(1, "01", 10, OrderStatus::Reserved));
-    CHECK(ds.ReleaseOrder(1) == false);
-    CHECK(ds.FindOrderById(1)->status == OrderStatus::Reserved); // 변경 없음
-}
+TEST_CASE("ReleaseOrder returns false when order does not exist") { ... }
+TEST_CASE("ReleaseOrder returns false when order is not CONFIRMED") { ... }
 ```
-
-**예상 컴파일 오류**: `'ReleaseOrder': 'DataStore'의 멤버가 아닙니다`
 
 #### GREEN
 
 ```cpp
 bool DataStore::ReleaseOrder(int orderId) {
-    for (auto& o : orders_) {
-        if (o.id == orderId) {
-            if (o.status != OrderStatus::Confirmed) return false;
-            o.status = OrderStatus::Release;
-            SaveOrders();
-            return true;
-        }
-    }
-    return false;
+    auto order = FindOrderById(orderId);          // 주문 정보 선조회
+    if (!order) return false;
+    bool ok = orderRepo_.Release(orderId);        // 상태 RELEASE로 전환
+    if (ok && order->producingBased)              // 생산 경로였다면
+        sampleRepo_.UpdateStock(order->sampleId, -order->quantity); // 재고 차감
+    return ok;
 }
 ```
 
@@ -312,7 +303,9 @@ StockStatus DataStore::GetStockStatus(const std::string& sampleId) const {
 
 | 결정 | 이유 |
 |------|------|
-| `ReleaseOrder`에서 재고 차감 없음 | "출고 시 재고를 추가 차감하지 않음" (feature-release.md 명시) |
+| 직접 Confirmed: 출고 시 재고 차감 없음 | 승인 시점에 이미 차감됨 (재고 충분 → 즉시 확정 경로) |
+| 생산 Confirmed: 출고 시 `quantity` 차감 | 승인 시 재고 미차감, 생산 완료 후 actualQty 증가 → 출고 시 주문량 차감 필요 |
+| `OrderData.producingBased` 필드로 경로 구분 | 출고 시점에 두 경로를 구분하는 최소 변경. 생산 큐 소비 후에도 이력 보존 |
 | `GetStockStatus`는 RESERVED 주문만 비교 | CONFIRMED·PRODUCING은 이미 처리된 주문 — 현재 재고에 영향 없음 |
 | `StockStatus::Depleted`를 최우선 판정 | 재고 0이면 RESERVED 주문 여부와 무관하게 고갈 |
 | doctest 선택 | 단일 헤더, 프로젝트 기존 스타일(nlohmann/json)과 일치 |
