@@ -7,20 +7,20 @@ enum class OrderStatus { Reserved, Rejected, Producing, Confirmed, Release };
 
 inline std::string orderStatusToString(OrderStatus s) {
     switch (s) {
-    case OrderStatus::Reserved:  return "Reserved";
-    case OrderStatus::Rejected:  return "Rejected";
-    case OrderStatus::Producing: return "Producing";
-    case OrderStatus::Confirmed: return "Confirmed";
-    case OrderStatus::Release:   return "Release";
-    default:                     return "Unknown";
+    case OrderStatus::Reserved:  return "RESERVED";
+    case OrderStatus::Rejected:  return "REJECTED";
+    case OrderStatus::Producing: return "PRODUCING";
+    case OrderStatus::Confirmed: return "CONFIRMED";
+    case OrderStatus::Release:   return "RELEASE";
+    default:                     return "UNKNOWN";
     }
 }
 
 inline OrderStatus orderStatusFromString(const std::string& s) {
-    if (s == "Rejected")  return OrderStatus::Rejected;
-    if (s == "Producing") return OrderStatus::Producing;
-    if (s == "Confirmed") return OrderStatus::Confirmed;
-    if (s == "Release")   return OrderStatus::Release;
+    if (s == "REJECTED"  || s == "Rejected")  return OrderStatus::Rejected;
+    if (s == "PRODUCING" || s == "Producing") return OrderStatus::Producing;
+    if (s == "CONFIRMED" || s == "Confirmed") return OrderStatus::Confirmed;
+    if (s == "RELEASE"   || s == "Release")   return OrderStatus::Release;
     return OrderStatus::Reserved;
 }
 

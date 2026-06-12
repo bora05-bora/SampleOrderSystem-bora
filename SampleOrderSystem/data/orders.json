@@ -1,5 +1,5 @@
 {
-  "nextId": 5,
+  "nextId": 8,
   "orders": [
     {
       "customer": "amy",
@@ -9,7 +9,7 @@
       "quantity": 30,
       "sampleId": "01",
       "sampleName": "ABC",
-      "status": "Producing"
+      "status": "PRODUCING"
     },
     {
       "customer": "ooo",
@@ -19,7 +19,7 @@
       "quantity": 40,
       "sampleId": "01",
       "sampleName": "ABC",
-      "status": "Rejected"
+      "status": "REJECTED"
     },
     {
       "customer": "iii",
@@ -29,7 +29,7 @@
       "quantity": 40,
       "sampleId": "01",
       "sampleName": "ABC",
-      "status": "Producing"
+      "status": "PRODUCING"
     },
     {
       "customer": "ee",
@@ -39,7 +39,37 @@
       "quantity": 90,
       "sampleId": "01",
       "sampleName": "ABC",
-      "status": "Producing"
+      "status": "PRODUCING"
+    },
+    {
+      "customer": "hi",
+      "date": "2026-06-12",
+      "id": 5,
+      "orderNo": "ORD-20260612-0005",
+      "quantity": 30,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "PRODUCING"
+    },
+    {
+      "customer": "ji",
+      "date": "2026-06-12",
+      "id": 6,
+      "orderNo": "ORD-20260612-0006",
+      "quantity": 2,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "REJECTED"
+    },
+    {
+      "customer": "hi",
+      "date": "2026-06-12",
+      "id": 7,
+      "orderNo": "ORD-20260612-0007",
+      "quantity": 20,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "RESERVED"
     }
   ]
 }
