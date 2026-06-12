@@ -43,11 +43,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\SampleOrderSystem\src\DataStore.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\SampleRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\OrderRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\ProductionRepository.cpp" />
     <ClCompile Include="tests\test_main.cpp" />
     <ClCompile Include="tests\test_release.cpp" />
     <ClCompile Include="tests\test_monitoring.cpp" />
     <ClCompile Include="tests\test_validator.cpp" />
     <ClCompile Include="tests\test_production_calc.cpp" />
+    <ClCompile Include="tests\test_sample_repository.cpp" />
+    <ClCompile Include="tests\test_order_repository.cpp" />
+    <ClCompile Include="tests\test_production_repository.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

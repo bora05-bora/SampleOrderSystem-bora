@@ -3,11 +3,13 @@
 #include <string>
 #include <optional>
 #include "Models.h"
+#include "SampleRepository.h"
+#include "OrderRepository.h"
+#include "ProductionRepository.h"
 
 class DataStore {
 public:
     explicit DataStore(const std::string& dataDir);
-
     void Load();
 
     // Samples
@@ -46,15 +48,7 @@ public:
     int GetTotalStock() const;
 
 private:
-    std::string              dataDir_;
-    std::vector<SampleData>  samples_;
-    int                      nextId_ = 1;
-    std::vector<OrderData>      orders_;
-    int                         nextOrderId_ = 1;
-    std::vector<ProductionJob>  queue_;
-
-    void loadSamples();
-    void loadOrders();
-    void loadProduction();
-    void ensureDataDir() const;
+    SampleRepository     sampleRepo_;
+    OrderRepository      orderRepo_;
+    ProductionRepository productionRepo_;
 };

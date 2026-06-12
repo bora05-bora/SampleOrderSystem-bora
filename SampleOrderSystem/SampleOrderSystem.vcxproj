@@ -80,6 +80,9 @@
     <ClInclude Include="src\DateTimeUtils.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\Models.h" />
+    <ClInclude Include="src\SampleRepository.h" />
+    <ClInclude Include="src\OrderRepository.h" />
+    <ClInclude Include="src\ProductionRepository.h" />
     <ClInclude Include="src\DataStore.h" />
     <ClInclude Include="src\SampleView.h" />
     <ClInclude Include="src\SampleController.h" />
@@ -95,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SampleRepository.cpp" />
+    <ClCompile Include="src\OrderRepository.cpp" />
+    <ClCompile Include="src\ProductionRepository.cpp" />
     <ClCompile Include="src\DataStore.cpp" />
     <ClCompile Include="src\SampleView.cpp" />
     <ClCompile Include="src\SampleController.cpp" />
