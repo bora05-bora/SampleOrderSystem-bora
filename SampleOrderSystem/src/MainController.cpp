@@ -79,14 +79,14 @@ void MainController::showSummary() const {
 }
 
 void MainController::showMenu() const {
-    Color::set(Color::CYAN);
+    Color::set(Color::BLUE);
     std::cout << " [1] 시료 관리\n";
     std::cout << " [2] 시료 주문\n";
     std::cout << " [3] 주문 승인/거절\n";
     std::cout << " [4] 생산라인 조회\n";
-    Color::reset();
     std::cout << " [5] 모니터링\n";
     std::cout << " [6] 출고 처리\n";
     std::cout << " [0] 종료\n";
+    Color::reset();
     std::cout << UI::SEP_THIN << "\n";
 }
