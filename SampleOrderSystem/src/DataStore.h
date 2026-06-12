@@ -18,6 +18,15 @@ public:
     void                           AddSample(const SampleData& sample);
     void                           SaveSamples();
     std::string                    GenerateSampleId();
+    bool                           UpdateSampleStock(const std::string& sampleId, int delta);
+
+    // Orders
+    const std::vector<OrderData>& GetOrders() const;
+    std::vector<OrderData>        GetReservedOrders() const;
+    void                          AddOrder(const OrderData& order);
+    void                          UpdateOrder(const OrderData& order);
+    void                          SaveOrders();
+    int                           NextOrderId();
 
     int GetTotalStock() const;
 
@@ -25,7 +34,10 @@ private:
     std::string              dataDir_;
     std::vector<SampleData>  samples_;
     int                      nextId_ = 1;
+    std::vector<OrderData>   orders_;
+    int                      nextOrderId_ = 1;
 
     void loadSamples();
+    void loadOrders();
     void ensureDataDir() const;
 };

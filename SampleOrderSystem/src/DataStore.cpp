@@ -14,6 +14,7 @@ DataStore::DataStore(const std::string& dataDir) : dataDir_(dataDir) {}
 void DataStore::Load() {
     ensureDataDir();
     loadSamples();
+    loadOrders();
 }
 
 void DataStore::ensureDataDir() const {
@@ -86,8 +87,74 @@ void DataStore::AddSample(const SampleData& sample) {
     SaveSamples();
 }
 
+bool DataStore::UpdateSampleStock(const std::string& sampleId, int delta) {
+    for (auto& s : samples_) {
+        if (s.id == sampleId) {
+            s.stock += delta;
+            SaveSamples();
+            return true;
+        }
+    }
+    return false;
+}
+
 int DataStore::GetTotalStock() const {
     int total = 0;
     for (const auto& s : samples_) total += s.stock;
     return total;
+}
+
+// ── Orders ───────────────────────────────────────────────
+
+void DataStore::loadOrders() {
+    std::string path = dataDir_ + "/orders.json";
+    if (!fs::exists(path)) return;
+    std::ifstream f(path);
+    if (!f.is_open()) return;
+    json j;
+    try {
+        f >> j;
+        nextOrderId_ = j.value("nextId", 1);
+        orders_.clear();
+        for (const auto& item : j.value("orders", json::array()))
+            orders_.push_back(OrderData::fromJson(item));
+    } catch (...) {}
+}
+
+void DataStore::SaveOrders() {
+    ensureDataDir();
+    json arr = json::array();
+    for (const auto& o : orders_)
+        arr.push_back(o.toJson());
+    std::ofstream f(dataDir_ + "/orders.json");
+    f << json{{"nextId", nextOrderId_}, {"orders", arr}}.dump(2);
+}
+
+const std::vector<OrderData>& DataStore::GetOrders() const { return orders_; }
+
+std::vector<OrderData> DataStore::GetReservedOrders() const {
+    std::vector<OrderData> result;
+    for (const auto& o : orders_)
+        if (o.status == OrderStatus::Reserved)
+            result.push_back(o);
+    return result;
+}
+
+void DataStore::AddOrder(const OrderData& order) {
+    orders_.push_back(order);
+    SaveOrders();
+}
+
+void DataStore::UpdateOrder(const OrderData& order) {
+    for (auto& o : orders_) {
+        if (o.id == order.id) {
+            o = order;
+            SaveOrders();
+            return;
+        }
+    }
+}
+
+int DataStore::NextOrderId() {
+    return nextOrderId_++;
 }
