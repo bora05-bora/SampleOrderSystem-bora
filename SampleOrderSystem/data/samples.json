@@ -1,19 +1,4 @@
 {
-  "nextId": 3,
-  "samples": [
-    {
-      "id": "01",
-      "name": "ABC",
-      "productionTime": 5.0,
-      "stock": 0,
-      "yield": 0.8
-    },
-    {
-      "id": "02",
-      "name": "DEF",
-      "productionTime": 5.0,
-      "stock": 0,
-      "yield": 0.4
-    }
-  ]
+  "nextId": 1,
+  "samples": []
 }

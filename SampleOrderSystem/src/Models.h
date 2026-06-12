@@ -62,6 +62,53 @@ struct OrderData {
     }
 };
 
+// ── 생산 작업 ────────────────────────────────────────────
+struct ProductionJob {
+    int         orderId;
+    std::string orderNo;
+    std::string sampleId;
+    std::string sampleName;
+    int         quantity;    // 주문 수량
+    int         stock;       // 승인 시점 재고
+    int         shortage;    // 부족분 = quantity - stock
+    int         actualQty;   // 실 생산량 = ceil(shortage / (yield * 0.9))
+    double      totalTime;   // 총 생산시간(분) = productionTime * actualQty
+    std::string enqueuedAt;  // "YYYY-MM-DD HH:MM:SS"
+    std::string startedAt;   // 생산 시작 시각 (front 항목에만 유효, 대기는 "")
+
+    nlohmann::json toJson() const {
+        return {
+            {"orderId",    orderId},
+            {"orderNo",    orderNo},
+            {"sampleId",   sampleId},
+            {"sampleName", sampleName},
+            {"quantity",   quantity},
+            {"stock",      stock},
+            {"shortage",   shortage},
+            {"actualQty",  actualQty},
+            {"totalTime",  totalTime},
+            {"enqueuedAt", enqueuedAt},
+            {"startedAt",  startedAt}
+        };
+    }
+
+    static ProductionJob fromJson(const nlohmann::json& j) {
+        ProductionJob p;
+        p.orderId    = j.at("orderId").get<int>();
+        p.orderNo    = j.at("orderNo").get<std::string>();
+        p.sampleId   = j.at("sampleId").get<std::string>();
+        p.sampleName = j.at("sampleName").get<std::string>();
+        p.quantity   = j.value("quantity",  0);
+        p.stock      = j.value("stock",     0);
+        p.shortage   = j.at("shortage").get<int>();
+        p.actualQty  = j.at("actualQty").get<int>();
+        p.totalTime  = j.at("totalTime").get<double>();
+        p.enqueuedAt = j.at("enqueuedAt").get<std::string>();
+        p.startedAt  = j.value("startedAt", "");
+        return p;
+    }
+};
+
 // ── 시료 데이터 ──────────────────────────────────────────
 struct SampleData {
     std::string id;            // "S-001"

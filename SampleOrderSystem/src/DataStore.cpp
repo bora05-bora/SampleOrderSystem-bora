@@ -15,6 +15,7 @@ void DataStore::Load() {
     ensureDataDir();
     loadSamples();
     loadOrders();
+    loadProduction();
 }
 
 void DataStore::ensureDataDir() const {
@@ -157,4 +158,66 @@ void DataStore::UpdateOrder(const OrderData& order) {
 
 int DataStore::NextOrderId() {
     return nextOrderId_++;
+}
+
+std::optional<OrderData> DataStore::FindOrderById(int id) const {
+    for (const auto& o : orders_)
+        if (o.id == id) return o;
+    return std::nullopt;
+}
+
+// ── Production queue ──────────────────────────────────────
+
+void DataStore::loadProduction() {
+    std::string path = dataDir_ + "/production.json";
+    if (!fs::exists(path)) return;
+    std::ifstream f(path);
+    if (!f.is_open()) return;
+    json j;
+    try {
+        f >> j;
+        queue_.clear();
+        for (const auto& item : j.value("queue", json::array()))
+            queue_.push_back(ProductionJob::fromJson(item));
+    } catch (...) {}
+}
+
+void DataStore::SaveProduction() {
+    ensureDataDir();
+    json arr = json::array();
+    for (const auto& p : queue_)
+        arr.push_back(p.toJson());
+    std::ofstream f(dataDir_ + "/production.json");
+    f << json{{"queue", arr}}.dump(2);
+}
+
+const std::vector<ProductionJob>& DataStore::GetProductionQueue() const {
+    return queue_;
+}
+
+void DataStore::AddProductionJob(const ProductionJob& job) {
+    queue_.push_back(job);
+    SaveProduction();
+}
+
+bool DataStore::PopProductionJob(ProductionJob& out) {
+    if (queue_.empty()) return false;
+    out = queue_.front();
+    queue_.erase(queue_.begin());
+    SaveProduction();
+    return true;
+}
+
+void DataStore::SetFrontStartedAt(const std::string& dt) {
+    if (queue_.empty()) return;
+    queue_.front().startedAt = dt;
+    SaveProduction();
+}
+
+int DataStore::GetQueuedQuantityForSample(const std::string& sampleId) const {
+    int total = 0;
+    for (const auto& job : queue_)
+        if (job.sampleId == sampleId)
+            total += job.quantity;
+    return total;
 }

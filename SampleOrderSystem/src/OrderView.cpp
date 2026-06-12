@@ -93,27 +93,39 @@ void OrderView::ShowOrderPlaced(const OrderData& order) const {
 
 // ── 재고 확인 화면 ────────────────────────────────────────
 void OrderView::ShowStockInfo(const std::string& sampleName,
-                               int stock, int quantity) const {
+                               int stock, int queuedQty, int quantity,
+                               int actualQty, double totalTime) const {
     std::cout << "\n";
     Color::set(Color::CYAN);
     std::cout << " 재고 확인 중...\n";
     Color::reset();
 
+    int effectiveStock = (stock - queuedQty > 0) ? stock - queuedQty : 0;
+
     std::cout << " 시료       " << sampleName << "\n";
-    std::cout << " 현재 재고  " << stock    << " ea\n";
+    std::cout << " 현재 재고  " << stock << " ea\n";
+    if (queuedQty > 0) {
+        Color::set(Color::YELLOW);
+        std::cout << " 생산 대기  -" << queuedQty << " ea  (동일 시료 선점)\n";
+        std::cout << " 가용 재고  " << effectiveStock << " ea\n";
+        Color::reset();
+    }
     std::cout << " 주문 수량  " << quantity << " ea\n";
 
-    if (stock >= quantity) {
+    if (effectiveStock >= quantity) {
         Color::set(Color::GREEN);
         std::cout << "\n 재고 충분. 승인하시겠습니까?  [Y] 승인   [N] 거절\n";
         Color::reset();
     } else {
-        int shortage = quantity - stock;
+        int shortage = quantity - effectiveStock;
         Color::set(Color::YELLOW);
-        std::cout << " 부족분     " << shortage << " ea\n";
+        std::cout << " 부족분     " << shortage  << " ea\n";
+        std::cout << " 실 생산량  " << actualQty << " ea";
+        std::cout << "   총 생산시간  "
+                  << std::fixed << std::setprecision(1) << totalTime << " min\n";
         Color::reset();
         Color::set(Color::RED);
-        std::cout << "\n 재고 부족. 승인하시겠습니까?  [Y] 승인   [N] 거절\n";
+        std::cout << "\n 재고 부족. 생산라인 등록 후 승인합니다.  [Y] 승인   [N] 거절\n";
         Color::reset();
     }
 }

@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <sstream>
 #include <ctime>
+#include <cmath>
 
 OrderController::OrderController(DataStore& dataStore)
     : dataStore_(dataStore) {}
@@ -24,6 +25,15 @@ std::string OrderController::currentDateCompact() {
     localtime_s(&ts, &now);
     char buf[12];
     std::strftime(buf, sizeof(buf), "%Y%m%d", &ts);
+    return buf;
+}
+
+std::string OrderController::currentDateTimeStr() {
+    std::time_t now = std::time(nullptr);
+    struct tm ts = {};
+    localtime_s(&ts, &now);
+    char buf[32];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &ts);
     return buf;
 }
 
@@ -98,7 +108,22 @@ void OrderController::ProcessApprovals() {
         return;
     }
 
-    view_.ShowStockInfo(sample->name, sample->stock, selected.quantity);
+    // 유효 가용 재고 = max(0, 현재 재고 - 생산 대기 중인 동일 시료 총 주문량)
+    int queuedQty      = dataStore_.GetQueuedQuantityForSample(selected.sampleId);
+    int effectiveStock = std::max(0, sample->stock - queuedQty);
+
+    // 부족분 및 생산량 사전 계산
+    int shortage = 0;
+    int actualQty = 0;
+    double totalTime = 0.0;
+    if (effectiveStock < selected.quantity) {
+        shortage  = selected.quantity - effectiveStock;
+        actualQty = (int)std::ceil((double)shortage / (sample->yield * 0.9));
+        totalTime = sample->productionTime * actualQty;
+    }
+
+    view_.ShowStockInfo(sample->name, sample->stock, queuedQty,
+                        selected.quantity, actualQty, totalTime);
     char yn = view_.InputYN();
 
     OrderData updated = selected;
@@ -107,10 +132,26 @@ void OrderController::ProcessApprovals() {
     if (yn == 'N') {
         updated.status = OrderStatus::Rejected;
     } else {
-        if (sample->stock >= selected.quantity) {
+        if (effectiveStock >= selected.quantity) {
             updated.status = OrderStatus::Confirmed;
             dataStore_.UpdateSampleStock(selected.sampleId, -selected.quantity);
         } else {
+            bool wasEmpty = dataStore_.GetProductionQueue().empty();
+            std::string now = currentDateTimeStr();
+
+            ProductionJob job;
+            job.orderId    = selected.id;
+            job.orderNo    = selected.orderNo;
+            job.sampleId   = selected.sampleId;
+            job.sampleName = selected.sampleName;
+            job.quantity   = selected.quantity;
+            job.stock      = effectiveStock;   // 유효 가용 재고 기준
+            job.shortage   = shortage;
+            job.actualQty  = actualQty;
+            job.totalTime  = totalTime;
+            job.enqueuedAt = now;
+            job.startedAt  = wasEmpty ? now : "";  // EMPTY 상태면 즉시 생산 시작
+            dataStore_.AddProductionJob(job);
             updated.status = OrderStatus::Producing;
         }
     }

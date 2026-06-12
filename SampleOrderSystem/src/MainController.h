@@ -2,6 +2,7 @@
 #include "DataStore.h"
 #include "SampleController.h"
 #include "OrderController.h"
+#include "ProductionController.h"
 
 class MainController {
 public:
@@ -9,9 +10,10 @@ public:
     void Run();
 
 private:
-    DataStore&        dataStore_;
-    SampleController  sampleCtrl_;
-    OrderController   orderCtrl_;
+    DataStore&            dataStore_;
+    SampleController      sampleCtrl_;
+    OrderController       orderCtrl_;
+    ProductionController  productionCtrl_;
 
     void showHeader() const;
     void showSummary() const;

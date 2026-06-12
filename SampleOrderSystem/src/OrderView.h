@@ -12,7 +12,8 @@ public:
                           int quantity) const;
     void ShowOrderPlaced(const OrderData& order) const;
     void ShowStockInfo(const std::string& sampleName,
-                       int stock, int quantity) const;
+                       int stock, int queuedQty, int quantity,
+                       int actualQty, double totalTime) const;
     void ShowApprovalResult(const OrderData& order, OrderStatus before) const;
     void ShowError(const std::string& msg) const;
 

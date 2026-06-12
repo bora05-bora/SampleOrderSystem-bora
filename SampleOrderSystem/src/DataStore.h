@@ -23,10 +23,19 @@ public:
     // Orders
     const std::vector<OrderData>& GetOrders() const;
     std::vector<OrderData>        GetReservedOrders() const;
+    std::optional<OrderData>      FindOrderById(int id) const;
     void                          AddOrder(const OrderData& order);
     void                          UpdateOrder(const OrderData& order);
     void                          SaveOrders();
     int                           NextOrderId();
+
+    // Production queue
+    const std::vector<ProductionJob>& GetProductionQueue() const;
+    void                              AddProductionJob(const ProductionJob& job);
+    bool                              PopProductionJob(ProductionJob& out);
+    void                              SetFrontStartedAt(const std::string& dt);
+    void                              SaveProduction();
+    int                               GetQueuedQuantityForSample(const std::string& sampleId) const;
 
     int GetTotalStock() const;
 
@@ -34,10 +43,12 @@ private:
     std::string              dataDir_;
     std::vector<SampleData>  samples_;
     int                      nextId_ = 1;
-    std::vector<OrderData>   orders_;
-    int                      nextOrderId_ = 1;
+    std::vector<OrderData>      orders_;
+    int                         nextOrderId_ = 1;
+    std::vector<ProductionJob>  queue_;
 
     void loadSamples();
     void loadOrders();
+    void loadProduction();
     void ensureDataDir() const;
 };

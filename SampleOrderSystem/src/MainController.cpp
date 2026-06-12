@@ -15,7 +15,8 @@ static std::string currentDateTime() {
 }
 
 MainController::MainController(DataStore& dataStore)
-    : dataStore_(dataStore), sampleCtrl_(dataStore), orderCtrl_(dataStore) {}
+    : dataStore_(dataStore), sampleCtrl_(dataStore),
+      orderCtrl_(dataStore), productionCtrl_(dataStore) {}
 
 void MainController::Run() {
     while (true) {
@@ -35,9 +36,10 @@ void MainController::Run() {
         clearInputBuffer();
 
         switch (choice) {
-        case 1: sampleCtrl_.Run();          break;
-        case 2: orderCtrl_.PlaceOrder();    break;
+        case 1: sampleCtrl_.Run();             break;
+        case 2: orderCtrl_.PlaceOrder();       break;
         case 3: orderCtrl_.ProcessApprovals(); break;
+        case 4: productionCtrl_.Run();         break;
         case 0:
             std::cout << "\n 시스템을 종료합니다.\n\n";
             return;
@@ -86,9 +88,9 @@ void MainController::showMenu() const {
     std::cout << " [1] 시료 관리\n";
     std::cout << " [2] 시료 주문\n";
     std::cout << " [3] 주문 승인/거절\n";
+    std::cout << " [4] 생산라인 조회\n";
     Color::reset();
     Color::set(Color::GRAY);
-    std::cout << " [4] 생산라인 조회      (준비 중)\n";
     std::cout << " [5] 모니터링           (준비 중)\n";
     std::cout << " [6] 출고 처리          (준비 중)\n";
     Color::reset();
