@@ -93,7 +93,7 @@ std::string SampleView::InputSampleId() const {
     while (true) {
         std::cout << " 시료 ID > ";
         std::getline(std::cin, id);
-        if (!id.empty()) return id;
+        if (Validator::isNonEmpty(id)) return id;
         ShowError("ID를 입력해 주세요.");
     }
 }
@@ -143,7 +143,7 @@ std::string SampleView::InputSearchKeyword() const {
     while (true) {
         std::cout << " 검색어 > ";
         std::getline(std::cin, keyword);
-        if (!keyword.empty()) return keyword;
+        if (Validator::isNonEmpty(keyword)) return keyword;
         ShowError("검색어를 입력해 주세요.");
     }
 }

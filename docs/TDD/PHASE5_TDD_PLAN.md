@@ -414,9 +414,9 @@ SampleOrderSystem.Tests/tests/
 
 ## 완료 조건
 
-- [ ] `Validator` 모든 케이스 GREEN
-- [ ] `ProductionCalc` 모든 케이스 GREEN
-- [ ] 기존 13개 테스트 회귀 없이 GREEN 유지
-- [ ] `OrderController`가 `ProductionCalc` 함수를 사용하도록 리팩토링
-- [ ] View 입력 루프에 `Validator` 적용
-- [ ] 빌드 오류/경고 없음
+- [x] `Validator` 모든 케이스 GREEN
+- [x] `ProductionCalc` 모든 케이스 GREEN
+- [x] 기존 테스트 회귀 없이 GREEN 유지 (65개 전부 통과)
+- [x] `OrderController`가 `ProductionCalc` 함수를 사용하도록 리팩토링
+- [x] View 입력 루프에 `Validator` 적용 (SampleView, OrderView 전 입력 함수)
+- [x] 빌드 오류/경고 없음
