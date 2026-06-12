@@ -1,0 +1,45 @@
+{
+  "nextId": 5,
+  "orders": [
+    {
+      "customer": "amy",
+      "date": "2026-06-12",
+      "id": 1,
+      "orderNo": "ORD-20260612-0001",
+      "quantity": 30,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "Producing"
+    },
+    {
+      "customer": "ooo",
+      "date": "2026-06-12",
+      "id": 2,
+      "orderNo": "ORD-20260612-0002",
+      "quantity": 40,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "Rejected"
+    },
+    {
+      "customer": "iii",
+      "date": "2026-06-12",
+      "id": 3,
+      "orderNo": "ORD-20260612-0003",
+      "quantity": 40,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "Producing"
+    },
+    {
+      "customer": "ee",
+      "date": "2026-06-12",
+      "id": 4,
+      "orderNo": "ORD-20260612-0004",
+      "quantity": 90,
+      "sampleId": "01",
+      "sampleName": "ABC",
+      "status": "Producing"
+    }
+  ]
+}
