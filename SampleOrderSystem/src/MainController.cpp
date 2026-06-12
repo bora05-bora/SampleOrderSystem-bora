@@ -60,7 +60,7 @@ void MainController::showHeader() const {
 void MainController::showSummary() const {
     const auto& samples    = dataStore_.GetSamples();
     int         totalStock = dataStore_.GetTotalStock();
-    int         reserved   = (int)dataStore_.GetReservedOrders().size();
+    int         reserved   = dataStore_.GetOrderStatusSummary().reserved;
 
     std::cout << " 등록 시료  ";
     Color::set(Color::CYAN);
