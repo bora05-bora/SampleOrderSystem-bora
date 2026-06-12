@@ -88,7 +88,7 @@ msbuild SampleOrderSystem.sln /p:Configuration=Debug /p:Platform=x64
 .\x64\Debug\SampleOrderSystem.Tests.exe
 ```
 
-doctest v2.4.11 기반 단위 테스트 65개가 포함되어 있습니다.
+doctest v2.4.11 기반 단위 테스트 112개가 포함되어 있습니다.
 
 | 테스트 파일 | 대상 |
 |------------|------|
@@ -99,6 +99,8 @@ doctest v2.4.11 기반 단위 테스트 65개가 포함되어 있습니다.
 | `test_production_repository.cpp` | 생산 큐 FIFO 동작 |
 | `test_validator.cpp` | 입력값 검증 규칙 |
 | `test_production_calc.cpp` | 생산량·시간 계산 공식 |
+| `test_phase2_order.cpp` | PHASE2 주문 접수·승인/거절 통합 시나리오 |
+| `test_phase3_production.cpp` | PHASE3 생산라인 통합 시나리오, 문서 예시 수치 검증 |
 
 ---
 
