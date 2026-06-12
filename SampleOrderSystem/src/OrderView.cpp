@@ -6,6 +6,23 @@
 
 static const std::string SEP = "------------------------------------------------------------";
 
+static WORD statusColor(OrderStatus s) {
+    switch (s) {
+    case OrderStatus::Reserved:  return Color::BLUE;
+    case OrderStatus::Confirmed: return Color::GREEN;
+    case OrderStatus::Producing: return Color::YELLOW;
+    case OrderStatus::Release:   return Color::MAGENTA;
+    case OrderStatus::Rejected:  return Color::RED;
+    default:                     return Color::WHITE;
+    }
+}
+
+static void printStatus(OrderStatus s) {
+    Color::set(statusColor(s));
+    std::cout << orderStatusToString(s);
+    Color::reset();
+}
+
 // ── 예약 목록 ─────────────────────────────────────────────
 void OrderView::ShowReservedList(const std::vector<OrderData>& orders) const {
     std::cout << "\n";
@@ -67,7 +84,7 @@ void OrderView::ShowOrderPlaced(const OrderData& order) const {
     Color::reset();
     std::cout << SEP << "\n";
     std::cout << " 주문번호   " << order.orderNo << "\n";
-    std::cout << " 현재 상태  RESERVED\n";
+    std::cout << " 현재 상태  "; printStatus(order.status); std::cout << "\n";
     Color::set(Color::YELLOW);
     std::cout << " ※ 재고 확인은 [3] 승인 메뉴에서 진행하세요.\n";
     Color::reset();
@@ -116,10 +133,11 @@ void OrderView::ShowApprovalResult(const OrderData& order, OrderStatus before) c
     Color::reset();
 
     std::cout << SEP << "\n";
-    std::cout << " 상태 변경  "
-              << orderStatusToString(before)
-              << " → "
-              << orderStatusToString(order.status) << "\n";
+    std::cout << " 상태 변경  ";
+    printStatus(before);
+    std::cout << " → ";
+    printStatus(order.status);
+    std::cout << "\n";
     std::cout << " 주문번호   " << order.orderNo << "\n";
     std::cout << SEP << "\n";
 }

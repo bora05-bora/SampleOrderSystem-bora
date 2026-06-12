@@ -16,7 +16,19 @@ src/
 
 `DataStore`에 orders 관련 CRUD 추가 (`data/orders.json` 신규 생성)
 
-### 2. 데이터 모델 추가
+### 2. 주문 상태 색상 규칙
+
+콘솔 출력 시 상태 텍스트에 아래 색상을 적용한다.
+
+| 상태 | 색상 |
+|------|------|
+| RESERVED | 파란색 |
+| CONFIRMED | 초록색 |
+| PRODUCING | 노란색 |
+| RELEASE | 보라색 |
+| REJECTED | 빨간색 |
+
+### 3. 데이터 모델 추가
 
 ```cpp
 enum class OrderStatus { Reserved, Rejected, Producing, Confirmed, Release };
@@ -34,7 +46,7 @@ struct OrderData {
 };
 ```
 
-### 3. orders.json 스키마
+### 4. orders.json 스키마
 
 ```json
 {
@@ -54,14 +66,14 @@ struct OrderData {
 }
 ```
 
-### 4. 주문번호 생성 규칙
+### 5. 주문번호 생성 규칙
 
 ```
 ORD-{YYYYMMDD}-{4자리 순번}
 예) ORD-20260612-0001
 ```
 
-### 5. 시료 주문 (접수) 기능
+### 6. 시료 주문 (접수) 기능
 
 - 입력: 시료 ID → 고객명 → 주문 수량
 - 입력 내용 확인 화면 출력 후 Y/N 최종 확인
@@ -69,7 +81,7 @@ ORD-{YYYYMMDD}-{4자리 순번}
 - 취소(N) 시: 주문 생성하지 않고 메뉴로 복귀
 - 제약: 등록되지 않은 시료 ID 입력 시 오류 안내
 
-### 6. 주문 승인/거절 기능
+### 7. 주문 승인/거절 기능
 
 **RESERVED 목록 표시** → 주문번호, 고객명, 시료명, 수량, 상태
 
@@ -92,7 +104,7 @@ ORD-{YYYYMMDD}-{4자리 순번}
 상태: Reserved → Rejected
 ```
 
-### 7. 메인 메뉴 업데이트
+### 8. 메인 메뉴 업데이트
 
 ```
 [1] 시료 관리
